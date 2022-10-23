@@ -1,11 +1,4 @@
-.container {
-  padding: 0 20px;
-  max-width: 700px;
-  margin: 0 auto;
-  line-height: 1.5;
-}
-
-.container h1 {
+/* .container h1 {
   font-size: 32px;
 }
 
@@ -23,14 +16,6 @@
   opacity: 0.6;
 }
 
-.name {
-  font-size: 36px;
-}
-
-.back {
-  display: inline-block;
-  margin-bottom: 20px;
-}
 
 .bold {
   font-weight: bold;
@@ -45,27 +30,6 @@
 
 .italic {
   font-style: italic;
-}
-
-.pre {
-  background-color: rgb(242, 242, 242);
-  padding: 2px 4px;
-  margin: 20px 0;
-  line-height: 2.3;
-  border-radius: 12px;
-  overflow: auto;
-}
-
-.code_block {
-  padding: 20px;
-  font-family: monospace;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.file {
-  padding: 2px 4px;
-  text-decoration: none;
 }
 
 .file a {
@@ -90,10 +54,6 @@
   text-decoration: underline;
 }
 
-.bookmark {
-  display: block;
-  margin-bottom: 10px;
-}
 
 @media (prefers-color-scheme: dark) {
   .code {
@@ -107,4 +67,4 @@
   .pre {
     background-color: rgb(15, 8, 28);
   }
-}
+} */

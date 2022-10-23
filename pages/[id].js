@@ -4,6 +4,7 @@ import { getDatabase, getPage, getBlocks } from "../lib/notion";
 import Link from "next/link";
 import { databaseId } from "./index.js";
 import styles from "./post.module.css";
+import { css } from "@emotion/react";
 
 export const Text = ({ text }) => {
   if (!text) {
@@ -127,8 +128,8 @@ const renderBlock = (block) => {
       return <blockquote key={id}>{value.text[0].plain_text}</blockquote>;
     case "code":
       return (
-        <pre className={styles.pre}>
-          <code className={styles.code_block} key={id}>
+        <pre>
+          <code key={id}>
             {value.text[0].plain_text}
           </code>
         </pre>
@@ -141,7 +142,7 @@ const renderBlock = (block) => {
       const caption_file = value.caption ? value.caption[0]?.plain_text : "";
       return (
         <figure>
-          <div className={styles.file}>
+          <div>
             📎{" "}
             <Link href={src_file} passHref>
               {lastElementInArray.split("?")[0]}
@@ -153,7 +154,7 @@ const renderBlock = (block) => {
     case "bookmark":
       const href = value.url
       return (
-        <a href={ href } target="_brank" className={styles.bookmark}>
+        <a href={ href } target="_brank">
           { href }
         </a>
       );
@@ -168,6 +169,7 @@ export default function Post({ page, blocks }) {
   if (!page || !blocks) {
     return <div />;
   }
+  console.log(page)
   return (
     <div>
       <Head>
@@ -175,8 +177,8 @@ export default function Post({ page, blocks }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <article className={styles.container}>
-        <h1 className={styles.name}>
+      <article>
+        <h1 className={css`font-size: 36px;`}>
           <Text text={page.properties.Name.title} />
         </h1>
         <section>
@@ -184,13 +186,14 @@ export default function Post({ page, blocks }) {
             <Fragment key={block.id}>{renderBlock(block)}</Fragment>
           ))}
           <Link href="/">
-            <a className={styles.back}>← Go home</a>
+            <a>← Go home</a>
           </Link>
         </section>
       </article>
     </div>
   );
 }
+
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
@@ -205,8 +208,7 @@ export const getStaticProps = async (context) => {
   const page = await getPage(id);
   const blocks = await getBlocks(id);
 
-  // Retrieve block children for nested blocks (one level deep), for example toggle blocks
-  // https://developers.notion.com/docs/working-with-page-content#reading-nested-blocks
+  
   const childBlocks = await Promise.all(
     blocks
       .filter((block) => block.has_children)
@@ -218,7 +220,7 @@ export const getStaticProps = async (context) => {
       })
   );
   const blocksWithChildren = blocks.map((block) => {
-    // Add child blocks if the block should contain children but none exists
+   
     if (block.has_children && !block[block.type].children) {
       block[block.type]["children"] = childBlocks.find(
         (x) => x.id === block.id
@@ -232,6 +234,6 @@ export const getStaticProps = async (context) => {
       page,
       blocks: blocksWithChildren,
     },
-    revalidate: 1, //ISR...前回から何秒以内のアクセスを無視するか指定します。
+    revalidate: 1, 
   };
 };
